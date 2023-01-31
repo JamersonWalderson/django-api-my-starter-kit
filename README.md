@@ -13,7 +13,7 @@ Repositório template para projetos em Django
 ```
 
 ## Padronização para identificação de commits
-- docs: Apenas para mudança de documentações.
+- doc: Apenas para mudança de documentações.
 - feat: Para novas funcionalidades.
 - fix: Para correção de bugs.
 - perf: Mudança de código para melhoria de performance
