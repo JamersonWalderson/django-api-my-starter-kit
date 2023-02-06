@@ -49,7 +49,6 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
-    'EXCEPTION_HANDLER': 'src.configs.custom_auth_failed.custom_exception_handler',
 }
 
 MIDDLEWARE = [
