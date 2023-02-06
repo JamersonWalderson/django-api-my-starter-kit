@@ -18,3 +18,5 @@ const InputField = ({ name, label, ...props }) => {
       </FormControl>
     )
   }
+
+  export default InputField;

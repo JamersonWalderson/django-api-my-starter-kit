@@ -1,6 +1,23 @@
 import { Box, Button, Flex, FormControl, FormLabel, Heading, Input, Stack } from "@chakra-ui/react";
+import { useFormik } from "formik";
+import * as Yup from 'yup';
+import InputField from "../../components/InputField";
 
 export default function Login() {
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    validationSchema: Yup.object({
+      email: Yup.string().email('Invalid email address').required('Required'),
+      password: Yup.string().min(6, 'Password must be at least 6 characters').required('Required'),
+    }),
+    onSubmit: (values) => {
+      console.log(values)
+    },
+  })
+
   return (
     <Flex
       backgroundColor={"green.100"}
@@ -19,14 +36,20 @@ export default function Login() {
         <Heading color={"teal.400"}>Bem-vindo(a)</Heading>
         <form>
           <Box p={"1rem"}>
-            <FormControl>
-              <FormLabel>E-mail:</FormLabel>
-              <Input type="email" placeholder="test@test.com" />
-            </FormControl>
-            <FormControl>
-              <FormLabel>Senha:</FormLabel>
-              <Input type="password" placeholder="Password" />
-            </FormControl>
+            <InputField 
+              type="email"
+              placeholder="exemplo@exemplo.com"
+              name="email"
+              label="E-mail:"
+              formik={formik}
+            />
+            <InputField
+              type="password"
+              placeholder="Password"
+              name="password"
+              label="Senha:"
+              formik={formik}
+            />
             <Button
               type="submit"
               width={"full"}
