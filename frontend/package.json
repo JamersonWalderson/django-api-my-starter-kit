@@ -10,12 +10,14 @@
     "@chakra-ui/react": "^2.3.6",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
+    "@types/yup": "^0.32.0",
     "formik": "^2.2.9",
     "framer-motion": "^6",
     "next": "latest",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-icons": "^4.6.0"
+    "react-icons": "^4.6.0",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@types/node": "^12.12.21",
