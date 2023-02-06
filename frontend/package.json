@@ -10,7 +10,6 @@
     "@chakra-ui/react": "^2.3.6",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
-    "@types/yup": "^0.32.0",
     "formik": "^2.2.9",
     "framer-motion": "^6",
     "next": "latest",
