@@ -1,16 +1,22 @@
 import { Box, Button, Flex, FormControl, FormLabel, Heading, Input, Stack } from "@chakra-ui/react";
-import { AxiosError } from "axios";
+import { Axios, AxiosError } from "axios";
 import { useFormik } from "formik";
 import { useContext, useState } from "react";
+import { useQuery } from "react-query";
 import * as Yup from 'yup';
 import InputField from "../../components/InputField";
 import { AuthContext } from "../../context/auth";
 import API from "../../services/axios";
 
-export default function Login() {
-  const { signIn } = useContext(AuthContext)
-  const [error, setError] = useState({} as AxiosError);
+const signIn = async (email:string, password:string) => {
+  const response = await API.post("/api/login/", {
+    email: email,
+    password: password
+  })
+  return response;
+}
 
+export default function Login() {
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -30,11 +36,10 @@ export default function Login() {
         console.log(response)
       })
       .catch((error: AxiosError) => {
-        if(error.status === 401) {
-          setError(error)
-        }
+        console.log("DEU ERRADO")
+        console.log(error)
       })
-    },
+    }
   })
 
   return (
@@ -70,11 +75,11 @@ export default function Login() {
               label="Senha:"
               formik={formik}
             />
-            { error != null && (
+            {/* { error && (
               <div>
               <p>É FODA DEU ERRO</p>
             </div>
-            )}
+            )} */}
             <Button
               type="submit"
               width={"full"}

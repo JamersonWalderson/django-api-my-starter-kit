@@ -12,14 +12,10 @@ export const AuthContext = createContext({} as AuthContextType)
 export function AuthProvider({children}) {
 
   async function signIn(email: string, password: string) {
-    // const response = await API.post("/api/login", {
-    //   email: email,
-    //   password: password
-    // })
-
-    const response = await API.get("/v1/services")
-
-    console.log(response)
+    const response = await API.post("/api/login", {
+      email: email,
+      password: password
+    })
     return response;
   }
 
