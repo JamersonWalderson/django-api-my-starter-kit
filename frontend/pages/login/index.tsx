@@ -1,6 +1,7 @@
-import { Box, Button, Flex, FormControl, FormLabel, Heading, Input, Stack } from "@chakra-ui/react";
+import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Button, Flex, FormControl, FormHelperText, FormLabel, Heading, Input, Stack } from "@chakra-ui/react";
 import { Axios, AxiosError } from "axios";
 import { useFormik } from "formik";
+import { ApiError } from "next/dist/server/api-utils";
 import { useContext, useState } from "react";
 import { useQuery } from "react-query";
 import * as Yup from 'yup';
@@ -10,13 +11,15 @@ import API from "../../services/axios";
 
 const signIn = async (email:string, password:string) => {
   const response = await API.post("/api/login/", {
-    email: email,
+    username: email,
     password: password
   })
   return response;
 }
 
 export default function Login() {
+  const [apiError, setApiError] = useState(null);
+
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -27,10 +30,7 @@ export default function Login() {
       password: Yup.string().required('Campo obrigatório.'),
     }),
     onSubmit: async (values) => {
-      await API.post("/api/login/", {
-        username: values.email,
-        password: values.password
-      })
+      await signIn(values.email, values.password)
       .then((response) => {
         console.log("DEU CERTO")
         console.log(response)
@@ -38,6 +38,7 @@ export default function Login() {
       .catch((error: AxiosError) => {
         console.log("DEU ERRADO")
         console.log(error)
+        setApiError(error)
       })
     }
   })
@@ -58,28 +59,28 @@ export default function Login() {
         boxShadow="md"
         width={"500px"}
         >
-        <Heading color={"teal.400"}>Bem-vindo(a)</Heading>
+        { apiError && (
+          <Alert status='error'>
+            <AlertIcon />
+            <AlertDescription>A senha ou o e-mail digitado está incorreto.</AlertDescription>
+          </Alert>
+        )}
         <form action="POST" onSubmit={formik.handleSubmit}>
           <Box p={"1rem"}>
             <InputField 
               type="email"
-              placeholder="exemplo@exemplo.com"
+              placeholder="Digite seu e-mail"
               name="email"
               label="E-mail:"
               formik={formik}
             />
             <InputField
               type="password"
-              placeholder="Password"
+              placeholder="Digite sua senha"
               name="password"
               label="Senha:"
               formik={formik}
             />
-            {/* { error && (
-              <div>
-              <p>É FODA DEU ERRO</p>
-            </div>
-            )} */}
             <Button
               type="submit"
               width={"full"}
