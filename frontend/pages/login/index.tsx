@@ -1,20 +1,39 @@
 import { Box, Button, Flex, FormControl, FormLabel, Heading, Input, Stack } from "@chakra-ui/react";
+import { AxiosError } from "axios";
 import { useFormik } from "formik";
+import { useContext, useState } from "react";
 import * as Yup from 'yup';
 import InputField from "../../components/InputField";
+import { AuthContext } from "../../context/auth";
+import API from "../../services/axios";
 
 export default function Login() {
+  const { signIn } = useContext(AuthContext)
+  const [error, setError] = useState({} as AxiosError);
+
   const formik = useFormik({
     initialValues: {
       email: '',
       password: '',
     },
     validationSchema: Yup.object({
-      email: Yup.string().email('Invalid email address').required('Required'),
-      password: Yup.string().min(6, 'Password must be at least 6 characters').required('Required'),
+      email: Yup.string().email('E-mail inválido.').required('Campo obrigatório.'),
+      password: Yup.string().required('Campo obrigatório.'),
     }),
-    onSubmit: (values) => {
-      console.log(values)
+    onSubmit: async (values) => {
+      await API.post("/api/login/", {
+        username: values.email,
+        password: values.password
+      })
+      .then((response) => {
+        console.log("DEU CERTO")
+        console.log(response)
+      })
+      .catch((error: AxiosError) => {
+        if(error.status === 401) {
+          setError(error)
+        }
+      })
     },
   })
 
@@ -32,9 +51,10 @@ export default function Login() {
         p="1rem"
         backgroundColor="whiteAlpha.900"
         boxShadow="md"
-      >
+        width={"500px"}
+        >
         <Heading color={"teal.400"}>Bem-vindo(a)</Heading>
-        <form>
+        <form action="POST" onSubmit={formik.handleSubmit}>
           <Box p={"1rem"}>
             <InputField 
               type="email"
@@ -50,6 +70,11 @@ export default function Login() {
               label="Senha:"
               formik={formik}
             />
+            { error != null && (
+              <div>
+              <p>É FODA DEU ERRO</p>
+            </div>
+            )}
             <Button
               type="submit"
               width={"full"}
