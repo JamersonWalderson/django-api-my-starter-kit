@@ -26,7 +26,7 @@ export default function Login() {
       password: '',
     },
     validationSchema: Yup.object({
-      email: Yup.string().email('E-mail inválido.').required('Campo obrigatório.'),
+      email: Yup.string().required('Campo obrigatório.'),
       password: Yup.string().required('Campo obrigatório.'),
     }),
     onSubmit: async (values) => {
@@ -68,7 +68,7 @@ export default function Login() {
         <form action="POST" onSubmit={formik.handleSubmit}>
           <Box p={"1rem"}>
             <InputField 
-              type="email"
+              type="text"
               placeholder="Digite seu e-mail"
               name="email"
               label="E-mail:"

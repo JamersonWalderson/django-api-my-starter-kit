@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
-    // console.log("MIDDLEWARE AQUI")
+    console.log("MIDDLEWARE AQUI")
 }
